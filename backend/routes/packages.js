@@ -1,23 +1,21 @@
 const router = require('express').Router();
 const db = require('../db');
 
-router.get('/', (req, res) => {
-  const d = db.get();
+router.get('/', async (req, res) => {
+  const d = await db.getAsync();
   res.json({ success: true, packages: d.packages.filter(p => p.active !== false) });
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    const pkg = db.update(data => {
+    const pkg = await db.updateAsync(data => {
       const { name, price, durVal, durUnit, speed, data: dataLimit, profile, featured } = req.body;
       if (!name || !price || price < 5) throw new Error('Name required and price must be at least KES 5');
       const newPkg = {
-        id: data._pkgCounter++,
-        name, price: Number(price), durVal: Number(durVal), durUnit,
+        id: data._pkgCounter++, name, price: Number(price), durVal: Number(durVal), durUnit,
         speed: speed || '1M/1M', data: dataLimit || 'unlimited',
-        profile: profile || name.toLowerCase().replace(/\s+/g,'-'),
-        featured: !!featured, active: true,
-        createdAt: new Date().toISOString(),
+        profile: profile || name.toLowerCase().replace(/\s+/g, '-'),
+        featured: !!featured, active: true, createdAt: new Date().toISOString(),
       };
       data.packages.push(newPkg);
       return newPkg;
@@ -28,9 +26,9 @@ router.post('/', (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
-    const pkg = db.update(data => {
+    const pkg = await db.updateAsync(data => {
       const p = data.packages.find(x => x.id === Number(req.params.id));
       if (!p) throw new Error('Package not found');
       Object.assign(p, req.body);
@@ -42,9 +40,9 @@ router.put('/:id', (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    db.update(data => {
+    await db.updateAsync(data => {
       const p = data.packages.find(x => x.id === Number(req.params.id));
       if (p) p.active = false;
     });
