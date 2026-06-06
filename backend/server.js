@@ -37,4 +37,3 @@ app.listen(PORT, () => {
   console.log(`   M-Pesa: ${process.env.MPESA_SHORTCODE ? '✅ Configured' : '⚠️ Not configured'}`);
   console.log(`   DB connected\n`);
 });
-});
