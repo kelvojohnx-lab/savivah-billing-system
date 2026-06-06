@@ -9,7 +9,7 @@ router.get('/test', async (req, res) => {
 
 router.post('/push/:code', async (req, res) => {
   try {
-    const d = db.get();
+    const d = await db.getAsync();
     const v = d.vouchers.find(x => x.code === req.params.code);
     if (!v) return res.status(404).json({ success: false, error: 'Voucher not found' });
     const result = await pushVoucherToMikrotik(v);
@@ -24,9 +24,8 @@ router.delete('/remove/:code', async (req, res) => {
   res.json(result);
 });
 
-// Push all unpushed vouchers in batch
 router.post('/push-all', async (req, res) => {
-  const d = db.get();
+  const d = await db.getAsync();
   const unpushed = d.vouchers.filter(v => !v.pushedToRouter && v.status === 'unused');
   const results = [];
   for (const v of unpushed.slice(0, 100)) {
