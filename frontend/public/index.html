@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Savivah Internet Solutions</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2347251d'/><text y='22' x='8' font-size='16'>📶</text></svg>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.2.0/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --br:#47251d;
+  --br-d:#2e1712;
+  --br-l:#6b3a2f;
+  --br-xl:#8b5147;
+  --bg:#fdf8f7;
+  --bg2:#f5ede9;
+  --bg3:#eeddd8;
+  --text:#1a0f0c;
+  --text2:#5c3a34;
+  --text3:#9a7068;
+  --border:#dcc5bf;
+  --white:#fff;
+  --success:#1a6b45;
+  --success-bg:#e6f5ed;
+  --warn:#8a5a00;
+  --warn-bg:#fff3d6;
+  --danger:#a32d2d;
+  --danger-bg:#fcebeb;
+  --info:#0c447c;
+  --info-bg:#e6f1fb;
+  --radius:10px;
+  --radius-sm:6px;
+}
+html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:4px}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:220px 1fr;height:100vh;overflow:hidden}
+.sidebar{background:var(--br);display:flex;flex-direction:column;overflow-y:auto}
+.main{display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.content{flex:1;overflow-y:auto;padding:1.5rem}
+
+/* Sidebar */
+.sav-brand{padding:1.25rem 1rem 1rem;border-bottom:1px solid rgba(255,255,255,0.1)}
+.brand-icon{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:8px}
+.brand-name{font-size:13px;font-weight:600;color:#fff;line-height:1.3}
+.brand-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:2px}
+.nav-section{padding:1rem 0.75rem 0.5rem;font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;margin:1px 6px;border-radius:var(--radius-sm);cursor:pointer;color:rgba(255,255,255,0.7);font-size:13px;transition:all 0.12s;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,0.1);color:#fff}
+.nav-item.active{background:rgba(255,255,255,0.18);color:#fff;font-weight:500}
+.nav-item i{font-size:17px;flex-shrink:0}
+.sidebar-footer{margin-top:auto;padding:1rem;border-top:1px solid rgba(255,255,255,0.1)}
+.sys-status{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.6)}
+.pulse{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* Topbar */
+.page-title{font-size:16px;font-weight:600;color:var(--text)}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.badge-live{background:var(--success-bg);color:var(--success);font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+
+/* Pages */
+.page{display:none}.page.active{display:block}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.5rem}
+.stat{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;transition:box-shadow 0.15s}
+.stat:hover{box-shadow:0 2px 8px rgba(71,37,29,0.08)}
+.stat-label{font-size:11px;color:var(--text3);margin-bottom:4px}
+.stat-val{font-size:24px;font-weight:600;color:var(--text);line-height:1.1}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.stat.accent{border-left:3px solid var(--br)}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem}
+.card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.card-title i{font-size:17px;color:var(--br)}
+
+/* Packages grid */
+.pkg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+.pkg-card{border:1px solid var(--border);border-radius:var(--radius);padding:12px;cursor:pointer;position:relative;transition:all 0.15s;background:var(--white)}
+.pkg-card:hover{border-color:var(--br);box-shadow:0 2px 8px rgba(71,37,29,0.1)}
+.pkg-card.selected{border:2px solid var(--br);background:var(--bg2)}
+.pkg-popular{position:absolute;top:-1px;right:8px;background:var(--br);color:#fff;font-size:9px;padding:2px 8px;border-radius:0 0 6px 6px;font-weight:500}
+.pkg-price{font-size:20px;font-weight:700;color:var(--br)}
+.pkg-price span{font-size:12px;font-weight:400;color:var(--text3)}
+.pkg-name{font-size:12px;font-weight:600;margin:4px 0 2px;color:var(--text)}
+.pkg-detail{font-size:11px;color:var(--text3)}
+
+/* Forms */
+.form-row{display:grid;gap:10px;margin-bottom:10px}
+.form-row.cols2{grid-template-columns:1fr 1fr}
+.form-row.cols3{grid-template-columns:1fr 1fr 1fr}
+.form-row.cols4{grid-template-columns:1fr 1fr 1fr 1fr}
+.form-row.solo{grid-template-columns:1fr}
+.f-label{font-size:11px;color:var(--text2);display:block;margin-bottom:4px;font-weight:500}
+.f-input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);transition:border 0.12s;outline:none}
+.f-input:focus{border-color:var(--br);box-shadow:0 0 0 3px rgba(71,37,29,0.08)}
+.f-hint{font-size:10px;color:var(--text3);margin-top:3px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;border:1px solid var(--border);background:var(--white);color:var(--text);transition:all 0.12s;font-weight:500}
+.btn:hover{background:var(--bg2)}
+.btn:active{transform:scale(0.98)}
+.btn i{font-size:15px}
+.btn-primary{background:var(--br);color:#fff;border-color:var(--br)}
+.btn-primary:hover{background:var(--br-d)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-sm i{font-size:13px}
+.btn-success{background:var(--success);color:#fff;border-color:var(--success)}
+.btn-danger{color:var(--danger);border-color:#f0c0c0}
+.btn-danger:hover{background:var(--danger-bg)}
+.btn-warn{background:#ff9800;color:#fff;border-color:#ff9800}
+.btn-group{display:flex;gap:6px;flex-wrap:wrap}
+
+/* Table */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;color:var(--text3);font-weight:500;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--bg3);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg)}
+.mono{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.5px}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
+.badge-success{background:var(--success-bg);color:var(--success)}
+.badge-warn{background:var(--warn-bg);color:var(--warn)}
+.badge-danger{background:var(--danger-bg);color:var(--danger)}
+.badge-info{background:var(--info-bg);color:var(--info)}
+.badge-neutral{background:var(--bg3);color:var(--text2)}
+
+/* Voucher card */
+.voucher-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px dashed var(--border);border-radius:var(--radius);margin-bottom:8px;background:var(--bg)}
+.voucher-code{font-family:'DM Mono',monospace;font-size:17px;font-weight:500;color:var(--br);letter-spacing:2px}
+.voucher-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.voucher-item.pushed{border-color:var(--br);background:#fdf2ef}
+
+/* M-Pesa panel */
+.mpesa-panel{background:var(--br);border-radius:var(--radius);padding:1.25rem;color:#fff;margin-bottom:1rem}
+.mpesa-panel h3{font-size:14px;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.mpesa-panel .f-label{color:rgba(255,255,255,0.75)}
+.mpesa-panel .f-input{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2);color:#fff}
+.mpesa-panel .f-input::placeholder{color:rgba(255,255,255,0.4)}
+.mpesa-panel .f-input:focus{border-color:rgba(255,255,255,0.6);box-shadow:none}
+
+/* Phone input row */
+.stk-row{display:flex;gap:8px;align-items:flex-end}
+.stk-row>div:first-child{flex:1}
+
+/* Progress spinner */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner.dark{border-color:rgba(71,37,29,0.2);border-top-color:var(--br)}
+
+/* Toast */
+.toast-wrap{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--br);color:#fff;padding:10px 16px;border-radius:var(--radius);font-size:13px;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(8px);transition:all 0.25s;pointer-events:none;max-width:320px}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{background:var(--success)}
+.toast.danger{background:var(--danger)}
+.toast.warn{background:#c47800;color:#fff}
+
+/* Section header */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.sec-hdr h2{font-size:15px;font-weight:600}
+
+/* Settings sections */
+.settings-section{margin-bottom:1.5rem}
+.settings-section h3{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:0.75rem;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+
+/* Hotspot config preview */
+.config-code{background:var(--text);color:#e8d5d0;padding:1rem;border-radius:var(--radius-sm);font-family:'DM Mono',monospace;font-size:12px;line-height:1.8;overflow-x:auto}
+.config-code .hl{color:#f7c59f}.config-code .cm{color:#6b8e6e}
+
+/* Progress bar */
+.prog-bar{height:5px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-top:4px}
+.prog-fill{height:100%;background:var(--br);border-radius:99px;transition:width 0.3s}
+
+/* Reports */
+.rev-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.rev-bar-label{font-size:12px;min-width:110px;color:var(--text)}
+.rev-bar-track{flex:1;height:8px;background:var(--bg3);border-radius:99px;overflow:hidden}
+.rev-bar-fill{height:100%;background:var(--br);border-radius:99px;transition:width 0.4s}
+.rev-bar-val{font-size:12px;color:var(--br);font-weight:500;min-width:60px;text-align:right}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center;z-index:1000}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius);padding:1.5rem;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.15)}
+.modal h3{font-size:15px;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:8px;color:var(--text)}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
+
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .form-row.cols3,.form-row.cols4{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sav-brand">
+      <div class="brand-icon">📶</div>
+      <div class="brand-name">Savivah Internet</div>
+      <div class="brand-sub">Billing Management System</div>
+    </div>
+    <div class="nav-section">Main</div>
+    <a class="nav-item active" onclick="nav('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="nav-item" onclick="nav('sell')"><i class="ti ti-bolt"></i> Quick Sell</a>
+    <a class="nav-item" onclick="nav('packages')"><i class="ti ti-packages"></i> Packages</a>
+    <div class="nav-section">Records</div>
+    <a class="nav-item" onclick="nav('vouchers')"><i class="ti ti-ticket"></i> Vouchers</a>
+    <a class="nav-item" onclick="nav('transactions')"><i class="ti ti-receipt"></i> Transactions</a>
+    <a class="nav-item" onclick="nav('reports')"><i class="ti ti-chart-bar"></i> Reports</a>
+    <div class="nav-section">Configuration</div>
+    <a class="nav-item" onclick="nav('settings')"><i class="ti ti-settings"></i> Settings</a>
+    <a class="nav-item" onclick="nav('hotspot')"><i class="ti ti-router"></i> Hotspot Config</a>
+    <div class="sidebar-footer">
+      <div class="sys-status"><div class="pulse"></div> <span id="sys-status-txt">Connecting...</span></div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="topbar-actions">
+        <span class="badge-live" id="router-badge">⚙ Router: not set</span>
+        <button class="btn btn-sm btn-primary" onclick="nav('sell')"><i class="ti ti-plus"></i> New Voucher</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat accent"><div class="stat-label">Today's Revenue</div><div class="stat-val" id="s-rev">KES 0</div><div class="stat-sub" id="s-rev-sub">0 sales</div></div>
+          <div class="stat"><div class="stat-label">Unused Vouchers</div><div class="stat-val" id="s-unused">0</div><div class="stat-sub">Ready to sell</div></div>
+          <div class="stat"><div class="stat-label">Total Revenue</div><div class="stat-val" id="s-total">KES 0</div><div class="stat-sub">All time</div></div>
+          <div class="stat"><div class="stat-label">All Vouchers</div><div class="stat-val" id="s-vtotal">0</div><div class="stat-sub">Generated</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-clock"></i> Recent Sales</div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Time</th><th>Code</th><th>Package</th><th>Amount</th><th>Method</th><th>Router</th></tr></thead>
+            <tbody id="dash-recent"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- QUICK SELL -->
+      <div class="page" id="page-sell">
+        <div class="mpesa-panel">
+          <h3><i class="ti ti-brand-mastercard"></i> M-Pesa STK Push — Customer Payment</h3>
+          <div class="form-row cols2">
+            <div>
+              <label class="f-label">Customer Phone (M-Pesa)</label>
+              <input class="f-input" type="tel" id="stk-phone" placeholder="07XXXXXXXX">
+            </div>
+            <div>
+              <label class="f-label">Package</label>
+              <select class="f-input" id="stk-pkg"></select>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-success" onclick="initSTK()"><i class="ti ti-device-mobile-message"></i> Send STK Push</button>
+            <span id="stk-status" style="font-size:12px;color:rgba(255,255,255,0.7);align-self:center;"></span>
+          </div>
+          <div id="stk-result" style="margin-top:10px;display:none;background:rgba(255,255,255,0.12);padding:10px 14px;border-radius:var(--radius-sm);font-size:12px;"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="ti ti-ticket"></i> Manual Voucher Generation</div>
+          <div id="sell-pkg-grid" class="pkg-grid" style="margin-bottom:1rem;"></div>
+          <div class="form-row cols3">
+            <div>
+              <label class="f-label">Package</label>
+              <select class="f-input" id="manual-pkg"></select>
+            </div>
+            <div>
+              <label class="f-label">Quantity</label>
+              <input class="f-input" type="number" id="manual-qty" value="1" min="1" max="50">
+            </div>
+            <div>
+              <label class="f-label">Push to Router</label>
+              <select class="f-input" id="manual-push">
+                <option value="1">Yes — push to MikroTik</option>
+                <option value="0">No — voucher only</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="generateManual()"><i class="ti ti-ticket"></i> Generate Voucher(s)</button>
+          <div id="gen-result" style="margin-top:1rem;"></div>
+        </div>
+      </div>
+
+      <!-- PACKAGES -->
+      <div class="page" id="page-packages">
+        <div class="sec-hdr">
+          <h2>Packages</h2>
+          <button class="btn btn-primary" onclick="openPkgModal()"><i class="ti ti-plus"></i> Add Package</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Name</th><th>Price (KES)</th><th>Duration</th><th>Speed</th><th>Data</th><th>Profile</th><th>Actions</th></tr></thead>
+            <tbody id="pkg-table-body"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- VOUCHERS -->
+      <div class="page" id="page-vouchers">
+        <div class="sec-hdr">
+          <h2>Vouchers</h2>
+          <div class="btn-group">
+            <button class="btn btn-sm" onclick="pushAllVouchers()"><i class="ti ti-upload"></i> Push All to Router</button>
+            <button class="btn btn-sm btn-danger" onclick="cleanupVouchers()"><i class="ti ti-trash"></i> Clear Used</button>
+          </div>
+        </div>
+        <div class="card" style="padding:0.75rem 1rem;">
+          <div class="form-row cols4" style="margin:0;">
+            <div><label class="f-label">Status</label>
+              <select class="f-input" id="v-status" onchange="loadVouchers()">
+                <option value="">All</option><option value="unused">Unused</option><option value="used">Used</option>
+              </select>
+            </div>
+            <div><label class="f-label">Package</label>
+              <select class="f-input" id="v-pkg" onchange="loadVouchers()"><option value="">All</option></select>
+            </div>
+            <div><label class="f-label">Search</label>
+              <input class="f-input" id="v-search" placeholder="Code..." oninput="loadVouchers()">
+            </div>
+            <div><label class="f-label">Router Push</label>
+              <select class="f-input" id="v-pushed" onchange="loadVouchers()">
+                <option value="">All</option><option value="0">Not pushed</option><option value="1">Pushed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="voucher-list"></div>
+      </div>
+
+      <!-- TRANSACTIONS -->
+      <div class="page" id="page-transactions">
+        <div class="sec-hdr">
+          <h2>Transactions</h2>
+          <button class="btn btn-sm" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Date / Time</th><th>Voucher Code</th><th>Package</th><th>Duration</th><th>Amount</th><th>Method</th><th>M-Pesa Ref</th></tr></thead>
+            <tbody id="tx-body"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- REPORTS -->
+      <div class="page" id="page-reports">
+        <div class="stats-grid" id="rep-stats"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="card">
+            <div class="card-title"><i class="ti ti-chart-pie"></i> Revenue by Package</div>
+            <div id="rep-pkg-chart"></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="ti ti-coins"></i> Payment Methods</div>
+            <div id="rep-methods"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <div class="sec-hdr"><h2>System Settings</h2>
+          <button class="btn btn-primary" onclick="saveSettings()"><i class="ti ti-device-floppy"></i> Save All Settings</button>
+        </div>
+
+        <div class="card">
+          <div class="settings-section">
+            <h3><i class="ti ti-building"></i> Business Info</h3>
+            <div class="form-row cols2">
+              <div><label class="f-label">Business Name</label><input class="f-input" id="s-biz-name" value="Savivah Internet Solutions"></div>
+              <div><label class="f-label">Callback URL (public URL for M-Pesa)</label><input class="f-input" id="s-callback" placeholder="https://yourdomain.com/api/mpesa/callback"></div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i class="ti ti-brand-mastercard" style="color:#00a651"></i> M-Pesa Daraja API</h3>
+            <div class="form-row cols2">
+              <div><label class="f-label">Shortcode (Paybill / Till)</label><input class="f-input" id="s-shortcode" placeholder="174379"><div class="f-hint">Your Safaricom paybill or till number</div></div>
+              <div><label class="f-label">Environment</label>
+                <select class="f-input" id="s-env"><option value="sandbox">Sandbox (testing)</option><option value="production">Production (live)</option></select>
+              </div>
+            </div>
+            <div class="form-row cols2">
+              <div><label class="f-label">Consumer Key</label><input class="f-input" id="s-ck" placeholder="Paste from Daraja portal"></div>
+              <div><label class="f-label">Consumer Secret</label><input class="f-input" type="password" id="s-cs" placeholder="Paste from Daraja portal"></div>
+            </div>
+            <div class="form-row solo">
+              <div><label class="f-label">Lipa na M-Pesa Passkey</label><input class="f-input" id="s-passkey" placeholder="Paste passkey from Daraja portal"></div>
+            </div>
+            <button class="btn btn-sm" onclick="testMpesa()"><i class="ti ti-plug"></i> Test M-Pesa Connection</button>
+            <span id="mpesa-test-result" style="font-size:12px;margin-left:8px;"></span>
+          </div>
+
+          <div class="settings-section">
+            <h3><i class="ti ti-router"></i> MikroTik Hotspot Router</h3>
+            <div class="form-row cols4">
+              <div><label class="f-label">Router IP Address</label><input class="f-input" id="s-mt-ip" placeholder="192.168.1.1"></div>
+              <div><label class="f-label">REST API Port</label><input class="f-input" id="s-mt-port" value="80" placeholder="80"><div class="f-hint">RouterOS v7: port 80 (REST)</div></div>
+              <div><label class="f-label">Username</label><input class="f-input" id="s-mt-user" value="admin"></div>
+              <div><label class="f-label">Password</label><input class="f-input" type="password" id="s-mt-pass" placeholder="router password"></div>
+            </div>
+            <div class="form-row cols2">
+              <div><label class="f-label">Hotspot Server Name</label><input class="f-input" id="s-mt-server" value="hotspot1" placeholder="hotspot1"></div>
+              <div><label class="f-label">Default User Profile</label><input class="f-input" id="s-mt-profile" value="default" placeholder="default"></div>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-sm" onclick="testRouter()"><i class="ti ti-plug"></i> Test Connection</button>
+              <span id="router-test-result" style="font-size:12px;margin-left:4px;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOTSPOT CONFIG -->
+      <div class="page" id="page-hotspot">
+        <div class="sec-hdr"><h2>Hotspot Configuration Guide</h2></div>
+
+        <div class="card">
+          <div class="card-title"><i class="ti ti-info-circle"></i> How it works</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+            When a voucher is generated (manually or after M-Pesa payment), Savivah pushes the voucher code as a hotspot user to your MikroTik router via the RouterOS REST API. The customer connects to your WiFi, opens a browser, and enters their voucher code on the hotspot login page.
+          </p>
+          <div class="form-row cols3">
+            <div class="stat" style="margin:0;">
+              <div class="stat-label">Step 1</div>
+              <div style="font-size:13px;font-weight:500;margin-top:4px;">Customer pays via M-Pesa</div>
+              <div class="stat-sub">STK Push → PIN → Confirmed</div>
+            </div>
+            <div class="stat" style="margin:0;">
+              <div class="stat-label">Step 2</div>
+              <div style="font-size:13px;font-weight:500;margin-top:4px;">Voucher auto-generated</div>
+              <div class="stat-sub">Pushed to MikroTik hotspot</div>
+            </div>
+            <div class="stat" style="margin:0;">
+              <div class="stat-label">Step 3</div>
+              <div style="font-size:13px;font-weight:500;margin-top:4px;">Code sent to customer</div>
+              <div class="stat-sub">Login to WiFi with code</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="ti ti-terminal"></i> MikroTik Setup Commands</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:10px;">Run these in your MikroTik terminal (Winbox or SSH) to enable REST API and create user profiles for each package:</p>
+          <div class="config-code" id="mikrotik-config-code">Loading config...</div>
+          <button class="btn btn-sm" style="margin-top:10px;" onclick="copyConfig()"><i class="ti ti-copy"></i> Copy Commands</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="ti ti-route"></i> Network Architecture</div>
+          <div style="font-size:13px;color:var(--text2);line-height:2;">
+            <div>📱 Customer phone → WiFi → MikroTik hotspot redirect → Login page</div>
+            <div>💳 Customer dials M-Pesa → Safaricom → Callback to this server</div>
+            <div>🖥️ This server → MikroTik REST API → Adds hotspot user with time limit</div>
+            <div>✅ Customer enters voucher code → Internet access granted for purchased duration</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div>
+
+<!-- Package Modal -->
+<div class="modal-overlay" id="pkg-modal">
+  <div class="modal">
+    <h3><i class="ti ti-packages" style="color:var(--br)"></i> <span id="pkg-modal-title">New Package</span></h3>
+    <div class="form-row cols2">
+      <div><label class="f-label">Package Name *</label><input class="f-input" id="pm-name" placeholder="e.g. Quick Hour"></div>
+      <div><label class="f-label">Price (KES) *</label><input class="f-input" type="number" id="pm-price" placeholder="20" min="5"></div>
+    </div>
+    <div class="form-row cols3">
+      <div><label class="f-label">Duration *</label><input class="f-input" type="number" id="pm-durval" placeholder="1"></div>
+      <div><label class="f-label">Unit</label>
+        <select class="f-input" id="pm-durunit">
+          <option value="mins">Minutes</option><option value="hours">Hours</option>
+          <option value="days">Days</option><option value="weeks">Weeks</option><option value="months">Months</option>
+        </select>
+      </div>
+      <div><label class="f-label">Speed (up/down)</label><input class="f-input" id="pm-speed" placeholder="2M/2M"></div>
+    </div>
+    <div class="form-row cols2">
+      <div><label class="f-label">Data Limit</label>
+        <select class="f-input" id="pm-data">
+          <option value="unlimited">Unlimited</option><option value="50M">50 MB</option>
+          <option value="100M">100 MB</option><option value="500M">500 MB</option>
+          <option value="1G">1 GB</option><option value="2G">2 GB</option><option value="5G">5 GB</option>
+        </select>
+      </div>
+      <div><label class="f-label">MikroTik Profile Name</label><input class="f-input" id="pm-profile" placeholder="e.g. hour-plan"></div>
+    </div>
+    <div class="form-row solo">
+      <div><label class="f-label">Featured / Popular</label>
+        <select class="f-input" id="pm-featured"><option value="0">No</option><option value="1">Yes — show badge</option></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closePkgModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="savePkg()"><i class="ti ti-check"></i> Save</button>
+    </div>
+    <input type="hidden" id="pm-edit-id">
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+const API = '';
+let packages = [];
+let currentPage = 'dashboard';
+let stkPollTimer = null;
+
+// Navigation
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{ if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+page+"'")) n.classList.add('active'); });
+  const titles = {dashboard:'Dashboard',sell:'Quick Sell',packages:'Packages',vouchers:'Vouchers',transactions:'Transactions',reports:'Reports',settings:'Settings',hotspot:'Hotspot Config'};
+  document.getElementById('page-title').textContent = titles[page]||page;
+  currentPage = page;
+  if(page==='dashboard') loadDashboard();
+  if(page==='sell') loadSellPage();
+  if(page==='packages') loadPackages();
+  if(page==='vouchers') loadVouchers();
+  if(page==='transactions') loadTransactions();
+  if(page==='reports') loadReports();
+  if(page==='settings') loadSettings();
+  if(page==='hotspot') loadHotspotGuide();
+}
+
+// Toast
+function toast(msg, type='') {
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className = 'toast '+type;
+  el.innerHTML = `<i class="ti ti-${type==='success'?'check':type==='danger'?'x':'info-circle'}"></i> ${msg}`;
+  wrap.appendChild(el);
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>el.classList.add('show')); });
+  setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),300); },3000);
+}
+
+async function api(path, opts={}) {
+  const res = await fetch(API+path, { headers:{'Content-Type':'application/json'}, ...opts });
+  return res.json();
+}
+
+// Init
+async function init() {
+  await loadPackagesData();
+  loadDashboard();
+  checkRouterStatus();
+  setInterval(checkRouterStatus, 30000);
+}
+
+async function loadPackagesData() {
+  const d = await api('/api/packages');
+  if(d.success) packages = d.packages;
+}
+
+async function checkRouterStatus() {
+  try {
+    const d = await api('/api/hotspot/test');
+    const el = document.getElementById('router-badge');
+    const st = document.getElementById('sys-status-txt');
+    if(d.success) {
+      el.textContent = '🟢 Router: online';
+      el.style.background = '#e6f5ed'; el.style.color = '#1a6b45';
+      st.textContent = 'All systems online';
+    } else {
+      el.textContent = '🔴 Router: ' + (d.error||'offline').slice(0,25);
+      el.style.background = '#fef3e2'; el.style.color = '#8a5a00';
+      st.textContent = 'Router offline';
+    }
+  } catch { document.getElementById('sys-status-txt').textContent='Backend offline'; }
+}
+
+// Dashboard
+async function loadDashboard() {
+  const d = await api('/api/transactions');
+  if(!d.success) return;
+  const s = d.summary;
+  document.getElementById('s-rev').textContent = 'KES '+s.todayRevenue.toLocaleString();
+  document.getElementById('s-rev-sub').textContent = s.todayCount+' sales today';
+  document.getElementById('s-unused').textContent = s.activeVouchers;
+  document.getElementById('s-total').textContent = 'KES '+s.totalRevenue.toLocaleString();
+  document.getElementById('s-vtotal').textContent = s.totalVouchers;
+
+  const tbody = document.getElementById('dash-recent');
+  const recent = d.transactions.slice(0,10);
+  if(!recent.length){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--text3);">No transactions yet — go to Quick Sell to get started</td></tr>'; return; }
+  tbody.innerHTML = recent.map(t=>`
+    <tr>
+      <td style="font-size:12px;color:var(--text3);">${new Date(t.createdAt).toLocaleTimeString()}</td>
+      <td class="mono">${t.code}</td>
+      <td>${t.pkgName}</td>
+      <td style="color:var(--br);font-weight:600;">KES ${t.amount}</td>
+      <td><span class="badge ${t.paymentMethod==='mpesa'?'badge-success':'badge-neutral'}">${t.paymentMethod==='mpesa'?'M-Pesa':'Manual'}</span></td>
+      <td><span class="badge ${t.mpesaRef?'badge-info':'badge-neutral'}">${t.mpesaRef||'—'}</span></td>
+    </tr>
+  `).join('');
+}
+
+// Sell page
+function loadSellPage() {
+  const pgrid = document.getElementById('sell-pkg-grid');
+  pgrid.innerHTML = packages.map(p=>`
+    <div class="pkg-card" id="spkg-${p.id}" onclick="selectSellPkg(${p.id})">
+      ${p.featured?'<div class="pkg-popular">Popular</div>':''}
+      <div class="pkg-price">KES ${p.price.toLocaleString()}</div>
+      <div class="pkg-name">${p.name}</div>
+      <div class="pkg-detail"><i class="ti ti-clock" style="font-size:10px"></i> ${p.durVal} ${p.durUnit}</div>
+      <div class="pkg-detail" style="color:var(--br);margin-top:2px;"><i class="ti ti-rocket" style="font-size:10px"></i> ${p.speed}</div>
+    </div>
+  `).join('');
+  const mpkg = document.getElementById('stk-pkg');
+  const mpkg2 = document.getElementById('manual-pkg');
+  const opts = packages.map(p=>`<option value="${p.id}">${p.name} — KES ${p.price}</option>`).join('');
+  mpkg.innerHTML = opts;
+  mpkg2.innerHTML = opts;
+}
+
+function selectSellPkg(id) {
+  document.querySelectorAll('.pkg-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('spkg-'+id)?.classList.add('selected');
+  document.getElementById('manual-pkg').value = id;
+  document.getElementById('stk-pkg').value = id;
+}
+
+// STK Push
+async function initSTK() {
+  const phone = document.getElementById('stk-phone').value.trim();
+  const pkgId = document.getElementById('stk-pkg').value;
+  if(!phone){ toast('Enter customer phone number','danger'); return; }
+
+  const statusEl = document.getElementById('stk-status');
+  const resultEl = document.getElementById('stk-result');
+  statusEl.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px"><div class="spinner"></div> Sending STK push...</span>';
+  resultEl.style.display='none';
+
+  try {
+    const d = await api('/api/mpesa/stk', { method:'POST', body:JSON.stringify({phone, pkgId:Number(pkgId)}) });
+    if(!d.success){ statusEl.textContent=''; toast(d.error,'danger'); return; }
+
+    statusEl.textContent = '📱 STK sent — waiting for PIN...';
+    resultEl.style.display='block';
+    resultEl.innerHTML = `<strong>Awaiting payment confirmation...</strong><br>Customer: ${phone} — Check your M-Pesa phone for the PIN prompt.`;
+
+    // Poll for completion
+    const checkoutId = d.checkoutId;
+    let polls = 0;
+    if(stkPollTimer) clearInterval(stkPollTimer);
+    stkPollTimer = setInterval(async()=>{
+      polls++;
+      const pd = await api('/api/mpesa/status/'+checkoutId);
+      if(pd.status==='completed') {
+        clearInterval(stkPollTimer);
+        statusEl.textContent = '';
+        const v = pd.voucher;
+        resultEl.innerHTML = `<strong style="color:#4ade80">✅ Payment confirmed!</strong><br>
+          Voucher: <strong class="mono">${v.code}</strong> | ${v.pkgName} | ${v.dur}<br>
+          <span style="color:rgba(255,255,255,0.7)">Router push: ${v.pushedToRouter?'✅ Done':'⏳ Pending'}</span>`;
+        toast('Payment received! Voucher: '+v.code,'success');
+        loadDashboard();
+      }
+      if(polls>24){ clearInterval(stkPollTimer); statusEl.textContent=''; resultEl.innerHTML='<span style="color:#f87171">Payment not confirmed after 2 minutes. Check M-Pesa and retry.</span>'; }
+    }, 5000);
+  } catch(err){ statusEl.textContent=''; toast('Network error: '+err.message,'danger'); }
+}
+
+// Manual generate
+async function generateManual() {
+  const pkgId = parseInt(document.getElementById('manual-pkg').value);
+  const qty = parseInt(document.getElementById('manual-qty').value)||1;
+  const pushRouter = document.getElementById('manual-push').value==='1';
+  const btn = event.target.closest('button');
+  btn.disabled=true; btn.innerHTML='<div class="spinner dark"></div> Generating...';
+
+  try {
+    const d = await api('/api/vouchers/generate', {method:'POST', body:JSON.stringify({pkgId,qty,pushRouter})});
+    btn.disabled=false; btn.innerHTML='<i class="ti ti-ticket"></i> Generate Voucher(s)';
+    if(!d.success){ toast(d.error,'danger'); return; }
+
+    const el = document.getElementById('gen-result');
+    el.innerHTML = d.vouchers.map(v=>`
+      <div class="voucher-item ${v.pushedToRouter?'pushed':''}">
+        <div>
+          <div class="voucher-code">${v.code}</div>
+          <div class="voucher-meta">${v.pkgName} · ${v.dur} · ${v.speed} · KES ${v.price} · Router: ${v.pushedToRouter?'✅ Pushed':'⚠ Not pushed'}</div>
+        </div>
+        <button class="btn btn-sm" onclick="printVoucher('${v.code}','${v.pkgName}','${v.dur}','${v.speed}',${v.price})"><i class="ti ti-printer"></i> Print</button>
+      </div>
+    `).join('');
+    toast(`${d.vouchers.length} voucher(s) generated`,'success');
+    loadDashboard();
+  } catch(e){ btn.disabled=false; btn.innerHTML='<i class="ti ti-ticket"></i> Generate Voucher(s)'; toast(e.message,'danger'); }
+}
+
+// Packages
+async function loadPackages() {
+  await loadPackagesData();
+  const tbody = document.getElementById('pkg-table-body');
+  if(!packages.length){ tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:1.5rem;color:var(--text3);">No packages yet</td></tr>'; return; }
+  tbody.innerHTML = packages.map(p=>`
+    <tr>
+      <td><strong>${p.name}</strong> ${p.featured?'<span class="badge badge-success">Popular</span>':''}</td>
+      <td style="font-weight:600;color:var(--br);">KES ${p.price.toLocaleString()}</td>
+      <td>${p.durVal} ${p.durUnit}</td>
+      <td><span class="mono">${p.speed}</span></td>
+      <td>${p.data}</td>
+      <td><span class="mono" style="font-size:11px;">${p.profile}</span></td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-sm" onclick="openPkgModal(${p.id})"><i class="ti ti-edit"></i></button>
+          <button class="btn btn-sm btn-danger" onclick="deletePkg(${p.id})"><i class="ti ti-trash"></i></button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openPkgModal(id=null) {
+  const m = document.getElementById('pkg-modal');
+  document.getElementById('pm-edit-id').value = id||'';
+  document.getElementById('pkg-modal-title').textContent = id ? 'Edit Package' : 'New Package';
+  if(id){
+    const p = packages.find(x=>x.id===id);
+    document.getElementById('pm-name').value=p.name;
+    document.getElementById('pm-price').value=p.price;
+    document.getElementById('pm-durval').value=p.durVal;
+    document.getElementById('pm-durunit').value=p.durUnit;
+    document.getElementById('pm-speed').value=p.speed;
+    document.getElementById('pm-data').value=p.data;
+    document.getElementById('pm-profile').value=p.profile;
+    document.getElementById('pm-featured').value=p.featured?'1':'0';
+  } else {
+    ['pm-name','pm-price','pm-durval','pm-speed','pm-profile'].forEach(i=>document.getElementById(i).value='');
+    document.getElementById('pm-durunit').value='hours';
+    document.getElementById('pm-data').value='unlimited';
+    document.getElementById('pm-featured').value='0';
+  }
+  m.classList.add('open');
+}
+function closePkgModal(){ document.getElementById('pkg-modal').classList.remove('open'); }
+document.getElementById('pkg-modal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closePkgModal(); });
+
+async function savePkg() {
+  const editId = document.getElementById('pm-edit-id').value;
+  const body = {
+    name:document.getElementById('pm-name').value.trim(),
+    price:Number(document.getElementById('pm-price').value),
+    durVal:Number(document.getElementById('pm-durval').value),
+    durUnit:document.getElementById('pm-durunit').value,
+    speed:document.getElementById('pm-speed').value||'1M/1M',
+    data:document.getElementById('pm-data').value,
+    profile:document.getElementById('pm-profile').value||document.getElementById('pm-name').value.toLowerCase().replace(/\s+/g,'-'),
+    featured:document.getElementById('pm-featured').value==='1',
+  };
+  if(!body.name||body.price<5){ toast('Name required, price min KES 5','danger'); return; }
+  const url = editId ? `/api/packages/${editId}` : '/api/packages';
+  const method = editId ? 'PUT' : 'POST';
+  const d = await api(url,{method,body:JSON.stringify(body)});
+  if(d.success){ toast('Package saved','success'); closePkgModal(); loadPackages(); await loadPackagesData(); loadHotspotGuide(); }
+  else toast(d.error,'danger');
+}
+
+async function deletePkg(id) {
+  if(!confirm('Delete this package?')) return;
+  const d = await api(`/api/packages/${id}`,{method:'DELETE'});
+  if(d.success){ toast('Package deleted'); loadPackages(); await loadPackagesData(); }
+}
+
+// Vouchers
+async function loadVouchers() {
+  const status = document.getElementById('v-status').value;
+  const pkgId = document.getElementById('v-pkg').value;
+  const search = document.getElementById('v-search').value.toUpperCase();
+  const pushed = document.getElementById('v-pushed').value;
+
+  // populate pkg filter
+  const vpkg = document.getElementById('v-pkg');
+  if(vpkg.options.length<=1) packages.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.name; vpkg.appendChild(o); });
+
+  let url = '/api/vouchers?';
+  if(status) url+='status='+status+'&';
+  if(pkgId) url+='pkgId='+pkgId+'&';
+
+  const d = await api(url);
+  if(!d.success) return;
+
+  let vouchers = d.vouchers;
+  if(search) vouchers = vouchers.filter(v=>v.code.includes(search));
+  if(pushed==='1') vouchers = vouchers.filter(v=>v.pushedToRouter);
+  if(pushed==='0') vouchers = vouchers.filter(v=>!v.pushedToRouter);
+
+  const el = document.getElementById('voucher-list');
+  if(!vouchers.length){ el.innerHTML='<div class="card" style="text-align:center;padding:2rem;color:var(--text3);">No vouchers found</div>'; return; }
+  el.innerHTML = vouchers.map(v=>`
+    <div class="voucher-item ${v.pushedToRouter?'pushed':''}">
+      <div>
+        <div class="voucher-code">${v.code}</div>
+        <div class="voucher-meta">${v.pkgName} · ${v.dur} · ${v.speed} · KES ${v.price} · <span style="color:${v.pushedToRouter?'var(--success)':'var(--warn)'};">${v.pushedToRouter?'✅ Router pushed':'⚠ Not pushed'}</span></div>
+      </div>
+      <div class="btn-group">
+        <span class="badge ${v.status==='unused'?'badge-success':v.status==='used'?'badge-neutral':'badge-warn'}">${v.status}</span>
+        ${v.status==='unused'?`<button class="btn btn-sm" onclick="pushVoucher('${v.code}')"><i class="ti ti-upload"></i></button>`:''}
+        <button class="btn btn-sm" onclick="printVoucher('${v.code}','${v.pkgName}','${v.dur}','${v.speed}',${v.price})"><i class="ti ti-printer"></i></button>
+        ${v.status==='unused'?`<button class="btn btn-sm btn-danger" onclick="markUsed('${v.code}')"><i class="ti ti-check"></i></button>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+async function pushVoucher(code) {
+  const d = await api(`/api/hotspot/push/${code}`,{method:'POST'});
+  if(d.success) toast('Pushed to router','success'); else toast(d.error,'danger');
+  loadVouchers();
+}
+async function markUsed(code) {
+  await api(`/api/vouchers/${code}/use`,{method:'PATCH'});
+  toast('Marked as used'); loadVouchers();
+}
+async function cleanupVouchers() {
+  if(!confirm('Remove all used vouchers?')) return;
+  const d = await api('/api/vouchers/cleanup',{method:'DELETE'});
+  toast(`Removed ${d.removed||0} vouchers`); loadVouchers();
+}
+async function pushAllVouchers() {
+  const d = await api('/api/hotspot/push-all',{method:'POST'});
+  toast(`Pushed ${d.pushed||0} vouchers to router`,'success'); loadVouchers();
+}
+
+// Transactions
+async function loadTransactions() {
+  const d = await api('/api/transactions');
+  if(!d.success) return;
+  const tbody = document.getElementById('tx-body');
+  if(!d.transactions.length){ tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:1.5rem;color:var(--text3);">No transactions yet</td></tr>'; return; }
+  tbody.innerHTML = d.transactions.map(t=>`
+    <tr>
+      <td style="font-size:12px;">${new Date(t.createdAt).toLocaleString()}</td>
+      <td class="mono">${t.code}</td>
+      <td>${t.pkgName}</td>
+      <td>${t.dur}</td>
+      <td style="font-weight:600;color:var(--br);">KES ${t.amount}</td>
+      <td><span class="badge ${t.paymentMethod==='mpesa'?'badge-success':'badge-neutral'}">${t.paymentMethod}</span></td>
+      <td class="mono" style="font-size:11px;">${t.mpesaRef||'—'}</td>
+    </tr>
+  `).join('');
+}
+
+function exportCSV() {
+  api('/api/transactions').then(d=>{
+    if(!d.transactions.length){ toast('No data to export','warn'); return; }
+    let csv = 'Date,Time,Code,Package,Duration,Amount,Method,MpesaRef\n';
+    d.transactions.forEach(t=>{ const dt=new Date(t.createdAt); csv+=`${dt.toLocaleDateString()},${dt.toLocaleTimeString()},${t.code},${t.pkgName},${t.dur},${t.amount},${t.paymentMethod},${t.mpesaRef||''}\n`; });
+    const a = document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='savivah-transactions.csv'; a.click();
+    toast('CSV exported','success');
+  });
+}
+
+// Reports
+async function loadReports() {
+  const d = await api('/api/transactions');
+  if(!d.success) return;
+  const s = d.summary;
+  document.getElementById('rep-stats').innerHTML = `
+    <div class="stat accent"><div class="stat-label">Total Revenue</div><div class="stat-val">KES ${s.totalRevenue.toLocaleString()}</div><div class="stat-sub">${s.total} transactions</div></div>
+    <div class="stat"><div class="stat-label">Today</div><div class="stat-val">KES ${s.todayRevenue.toLocaleString()}</div><div class="stat-sub">${s.todayCount} sales</div></div>
+    <div class="stat"><div class="stat-label">Vouchers</div><div class="stat-val">${s.totalVouchers}</div><div class="stat-sub">${s.activeVouchers} unused</div></div>
+  `;
+  const pkgRev = {};
+  packages.forEach(p=>pkgRev[p.id]={name:p.name,total:0,count:0});
+  d.transactions.forEach(t=>{ if(pkgRev[t.pkgId]){pkgRev[t.pkgId].total+=t.amount;pkgRev[t.pkgId].count++;} });
+  const items = Object.values(pkgRev).sort((a,b)=>b.total-a.total);
+  const maxRev = Math.max(...items.map(i=>i.total),1);
+  document.getElementById('rep-pkg-chart').innerHTML = items.map(i=>`
+    <div class="rev-bar">
+      <div class="rev-bar-label">${i.name}</div>
+      <div class="rev-bar-track"><div class="rev-bar-fill" style="width:${Math.round(i.total/maxRev*100)}%"></div></div>
+      <div class="rev-bar-val">KES ${i.total.toLocaleString()}</div>
+    </div>
+  `).join('');
+
+  const mpesa = d.transactions.filter(t=>t.paymentMethod==='mpesa').reduce((s,t)=>s+t.amount,0);
+  const manual = d.transactions.filter(t=>t.paymentMethod!=='mpesa').reduce((s,t)=>s+t.amount,0);
+  const tot = mpesa+manual||1;
+  document.getElementById('rep-methods').innerHTML = `
+    <div class="rev-bar">
+      <div class="rev-bar-label">M-Pesa</div>
+      <div class="rev-bar-track"><div class="rev-bar-fill" style="width:${Math.round(mpesa/tot*100)}%;background:#00a651"></div></div>
+      <div class="rev-bar-val">KES ${mpesa.toLocaleString()}</div>
+    </div>
+    <div class="rev-bar">
+      <div class="rev-bar-label">Manual</div>
+      <div class="rev-bar-track"><div class="rev-bar-fill" style="width:${Math.round(manual/tot*100)}%"></div></div>
+      <div class="rev-bar-val">KES ${manual.toLocaleString()}</div>
+    </div>
+  `;
+}
+
+// Settings
+async function loadSettings() {
+  const d = await api('/api/settings');
+  if(!d.success) return;
+  const s = d.settings;
+  document.getElementById('s-biz-name').value = s.business_name||'';
+  document.getElementById('s-shortcode').value = s.mpesa_shortcode||'';
+  document.getElementById('s-env').value = s.mpesa_env||'sandbox';
+  document.getElementById('s-ck').value = s.mpesa_consumer_key||'';
+  document.getElementById('s-cs').value = s.mpesa_consumer_secret||'';
+  document.getElementById('s-passkey').value = s.mpesa_passkey||'';
+  document.getElementById('s-callback').value = s.mpesa_callback_url||'';
+  document.getElementById('s-mt-ip').value = s.mikrotik_ip||'';
+  document.getElementById('s-mt-port').value = s.mikrotik_port||'80';
+  document.getElementById('s-mt-user').value = s.mikrotik_user||'admin';
+  document.getElementById('s-mt-pass').value = s.mikrotik_pass||'';
+  document.getElementById('s-mt-server').value = s.mikrotik_hotspot_server||'hotspot1';
+  document.getElementById('s-mt-profile').value = s.mikrotik_default_profile||'default';
+}
+
+async function saveSettings() {
+  const body = {
+    business_name: document.getElementById('s-biz-name').value,
+    mpesa_shortcode: document.getElementById('s-shortcode').value,
+    mpesa_env: document.getElementById('s-env').value,
+    mpesa_consumer_key: document.getElementById('s-ck').value,
+    mpesa_consumer_secret: document.getElementById('s-cs').value,
+    mpesa_passkey: document.getElementById('s-passkey').value,
+    mpesa_callback_url: document.getElementById('s-callback').value,
+    mikrotik_ip: document.getElementById('s-mt-ip').value,
+    mikrotik_port: document.getElementById('s-mt-port').value,
+    mikrotik_user: document.getElementById('s-mt-user').value,
+    mikrotik_pass: document.getElementById('s-mt-pass').value,
+    mikrotik_hotspot_server: document.getElementById('s-mt-server').value,
+    mikrotik_default_profile: document.getElementById('s-mt-profile').value,
+  };
+  const d = await api('/api/settings',{method:'POST',body:JSON.stringify(body)});
+  if(d.success){ toast('Settings saved','success'); checkRouterStatus(); } else toast(d.error,'danger');
+}
+
+async function testMpesa() {
+  const el = document.getElementById('mpesa-test-result');
+  el.textContent = 'Testing...';
+  try {
+    const d = await api('/api/mpesa/stk', {method:'POST', body:JSON.stringify({phone:'254700000000', pkgId:1, test:true})});
+    el.style.color = d.success?'var(--success)':'var(--danger)';
+    el.textContent = d.success ? '✅ M-Pesa connected' : '❌ '+d.error;
+  } catch(e){ el.style.color='var(--danger)'; el.textContent='❌ '+e.message; }
+}
+
+async function testRouter() {
+  const el = document.getElementById('router-test-result');
+  el.textContent = 'Testing...';
+  await saveSettings();
+  const d = await api('/api/hotspot/test');
+  el.style.color = d.success ? 'var(--success)' : 'var(--danger)';
+  el.textContent = d.success ? '✅ Router online: '+JSON.stringify(d.info).slice(0,50) : '❌ '+d.error;
+  checkRouterStatus();
+}
+
+// Hotspot guide
+function loadHotspotGuide() {
+  const profiles = packages.map(p=>`
+/ip hotspot user profile add name=${p.profile} rate-limit=${p.speed} session-timeout=${durToMikrotik(p.durVal,p.durUnit)}`).join('');
+  const config = `<span class="cm"># 1. Enable REST API (RouterOS v7+)</span>
+/ip service set www-ssl disabled=no port=443
+/ip service set www disabled=no port=80
+
+<span class="cm"># 2. Create hotspot server (if not exists)</span>
+/ip hotspot setup
+
+<span class="cm"># 3. Create user profiles for each package</span>${profiles}
+
+<span class="cm"># 4. Allow API access from billing server IP</span>
+/ip firewall filter add chain=input protocol=tcp dst-port=80 src-address=<span class="hl">YOUR_SERVER_IP</span> action=accept comment="Savivah Billing"
+
+<span class="cm"># 5. Create API-only admin user (recommended)</span>
+/user add name=savivah-api password=<span class="hl">STRONG_PASSWORD</span> group=full comment="Savivah Billing API"`;
+  document.getElementById('mikrotik-config-code').innerHTML = config;
+}
+
+function durToMikrotik(val, unit) {
+  const map = {mins:'m',hours:'h',days:'d',weeks:'w',months:'m'};
+  if(unit==='months') return (val*30)+'d';
+  return val+(map[unit]||'m');
+}
+
+function copyConfig() {
+  const el = document.getElementById('mikrotik-config-code');
+  navigator.clipboard.writeText(el.innerText).then(()=>toast('Config commands copied','success'));
+}
+
+// Print voucher
+function printVoucher(code,name,dur,speed,price) {
+  const w = window.open('','_blank','width=340,height=360');
+  w.document.write(`<!DOCTYPE html><html><head><style>
+    body{font-family:'Courier New',monospace;text-align:center;padding:20px;color:#000}
+    .brand{font-family:Arial,sans-serif;font-size:16px;font-weight:bold;color:#47251d}
+    .code{font-size:28px;font-weight:bold;letter-spacing:4px;border:2px dashed #47251d;padding:8px 14px;margin:10px auto;display:inline-block}
+    hr{border:1px dashed #ccc}p{margin:4px 0;font-size:12px}
+  </style></head><body>
+    <div class="brand">📶 Savivah Internet Solutions</div><hr>
+    <p>${name} — <strong>KES ${price}</strong></p>
+    <div class="code">${code}</div>
+    <p>⏱ Duration: ${dur} &nbsp;|&nbsp; 🚀 Speed: ${speed}</p><hr>
+    <p style="font-size:10px">Connect to WiFi → Open browser → Enter code</p>
+    <p style="font-size:10px;color:#999">${new Date().toLocaleString()}</p>
+  </body></html>`);
+  w.document.close();
+  setTimeout(()=>w.print(), 300);
+}
+
+// Boot
+init();
+</script>
+</body>
+</html>

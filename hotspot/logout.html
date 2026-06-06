@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- Upload to MikroTik: Files → hotspot/logout.html -->
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logged Out — Savivah</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:linear-gradient(160deg,#3d1e17,#47251d);font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;padding:1rem}
+.box{background:#fff;border-radius:20px;padding:2rem;max-width:340px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
+.icon{font-size:48px;margin-bottom:1rem}
+h1{font-size:19px;font-weight:700;color:#47251d;margin-bottom:8px}
+p{font-size:13px;color:#9a7068;margin-bottom:1.5rem;line-height:1.6}
+.btn{display:block;padding:13px;border-radius:12px;background:#47251d;color:#fff;font-size:14px;font-weight:600;text-decoration:none;transition:all 0.15s;margin-bottom:10px}
+.btn:hover{background:#2e1712}
+.btn-outline{background:transparent;border:1.5px solid #e8d5cf;color:#5c3a34}
+.footer{margin-top:1.25rem;font-size:10px;color:#c4a09a}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="icon">👋</div>
+  <h1>You've been logged out</h1>
+  <p>Thanks for using Savivah Internet Solutions.<br>Come back anytime!</p>
+  <a href="/hotspot/" class="btn">🛒 Buy Another Package</a>
+  <a href="$(link-login)" class="btn btn-outline">🔑 Login Again</a>
+  <div class="footer">Savivah Internet Solutions · Fast &amp; Reliable WiFi</div>
+</div>
+</body>
+</html>

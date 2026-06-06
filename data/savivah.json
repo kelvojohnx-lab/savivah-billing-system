@@ -1,0 +1,146 @@
+{
+  "settings": {
+    "business_name": "Savivah Internet Solutions",
+    "mpesa_shortcode": "",
+    "mpesa_consumer_key": "",
+    "mpesa_consumer_secret": "",
+    "mpesa_passkey": "",
+    "mpesa_callback_url": "",
+    "mpesa_env": "sandbox",
+    "mikrotik_ip": "",
+    "mikrotik_port": "8728",
+    "mikrotik_user": "admin",
+    "mikrotik_pass": "",
+    "mikrotik_hotspot_server": "hotspot1",
+    "router_type": "mikrotik"
+  },
+  "packages": [
+    {
+      "id": 1,
+      "name": "Flash Browse",
+      "price": 5,
+      "durVal": 20,
+      "durUnit": "mins",
+      "speed": "512K/512K",
+      "data": "unlimited",
+      "profile": "flash",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Quick Hour",
+      "price": 20,
+      "durVal": 1,
+      "durUnit": "hours",
+      "speed": "1M/1M",
+      "data": "unlimited",
+      "profile": "hour",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Half Day",
+      "price": 50,
+      "durVal": 6,
+      "durUnit": "hours",
+      "speed": "2M/2M",
+      "data": "unlimited",
+      "profile": "halfday",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "Full Day",
+      "price": 100,
+      "durVal": 1,
+      "durUnit": "days",
+      "speed": "2M/2M",
+      "data": "unlimited",
+      "profile": "day",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "Weekly",
+      "price": 500,
+      "durVal": 7,
+      "durUnit": "days",
+      "speed": "5M/5M",
+      "data": "5G",
+      "profile": "weekly",
+      "active": true
+    },
+    {
+      "id": 6,
+      "name": "Monthly",
+      "price": 1500,
+      "durVal": 30,
+      "durUnit": "days",
+      "speed": "10M/10M",
+      "data": "unlimited",
+      "profile": "monthly",
+      "active": true
+    },
+    {
+      "id": 7,
+      "name": "Free Trial",
+      "price": 0,
+      "durVal": 3,
+      "durUnit": "days",
+      "speed": "1M/1M",
+      "data": "500M",
+      "profile": "free-trial",
+      "featured": false,
+      "active": true,
+      "isTrial": true,
+      "createdAt": "2026-05-28T08:22:13.312Z"
+    }
+  ],
+  "vouchers": [
+    {
+      "id": 1,
+      "code": "CMU4-KN6J-86NK-MRSR",
+      "pkgId": 7,
+      "pkgName": "Free Trial",
+      "price": 0,
+      "dur": "3 days",
+      "durSeconds": 259200,
+      "speed": "1M/1M",
+      "profile": "free-trial",
+      "data": "500M",
+      "status": "used",
+      "source": "trial",
+      "txRef": null,
+      "createdAt": "2026-05-28T08:22:13.313Z",
+      "usedAt": "2026-05-28T08:27:42.782Z",
+      "pushedToRouter": false
+    }
+  ],
+  "transactions": [],
+  "mpesa_pending": [],
+  "_pkgCounter": 8,
+  "_voucherCounter": 2,
+  "users": [
+    {
+      "id": 1,
+      "name": "john kelvin",
+      "phone": "254742526820",
+      "password": "123Apart",
+      "isNew": false,
+      "trialUsed": true,
+      "trialVoucher": "CMU4-KN6J-86NK-MRSR",
+      "registeredAt": "2026-05-28T08:22:07.506Z"
+    },
+    {
+      "id": 2,
+      "name": "paul",
+      "phone": "2547200000",
+      "password": "qwrty",
+      "isNew": true,
+      "trialUsed": false,
+      "trialVoucher": null,
+      "registeredAt": "2026-05-29T14:16:24.712Z"
+    }
+  ],
+  "_userCounter": 3
+}

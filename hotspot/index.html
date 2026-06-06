@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Savivah Internet Solutions</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --br:#47251d;
+  --br-d:#2e1712;
+  --br-l:#6b3a2f;
+  --gold:#c8860a;
+  --gold-l:#faeeda;
+  --green:#1a7a4a;
+  --green-l:#e8f7ef;
+  --red:#c0392b;
+  --red-l:#fdecea;
+  --bg:#fdf6f4;
+  --white:#fff;
+  --text:#1a0f0c;
+  --text2:#5c3a34;
+  --text3:#9a7068;
+  --border:#e8d5cf;
+}
+html,body{min-height:100%;background:linear-gradient(160deg,#3d1e17 0%,#47251d 40%,#6b3a2f 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text)}
+
+.portal{max-width:420px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+
+/* Header */
+.header{text-align:center;padding:2rem 1.5rem 1.25rem;color:#fff}
+.logo-ring{width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;backdrop-filter:blur(4px)}
+.header h1{font-size:20px;font-weight:700;letter-spacing:0.3px}
+.header p{font-size:12px;color:rgba(255,255,255,0.65);margin-top:3px}
+.signal-bars{display:flex;align-items:flex-end;gap:3px;justify-content:center;margin-top:10px;height:16px}
+.signal-bars span{width:5px;background:rgba(255,255,255,0.3);border-radius:2px}
+.signal-bars span.on{background:rgba(255,255,255,0.9)}
+.signal-bars span:nth-child(1){height:5px}.signal-bars span:nth-child(2){height:8px}.signal-bars span:nth-child(3){height:11px}.signal-bars span:nth-child(4){height:15px}
+
+/* Card */
+.card{background:var(--white);border-radius:20px 20px 0 0;flex:1;padding:1.5rem;box-shadow:0 -4px 24px rgba(0,0,0,0.15)}
+
+/* Steps */
+.step{display:none}.step.active{display:block}
+
+/* Step indicators */
+.steps-bar{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:1.5rem}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all 0.3s}
+.step-dot.active{background:var(--br);width:24px;border-radius:4px}
+.step-dot.done{background:var(--green)}
+
+/* Package cards */
+.pkg-list{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+.pkg{border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all 0.15s;background:var(--white);position:relative;overflow:hidden}
+.pkg:hover,.pkg.sel{border-color:var(--br);background:#fdf2ef}
+.pkg.sel::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--br);border-radius:3px 0 0 3px}
+.pkg-trial{border-color:var(--green);background:var(--green-l)}
+.pkg-trial::before{background:var(--green) !important}
+.pkg-trial.sel{border-color:var(--green) !important;background:#d4f0e0 !important}
+.pkg-left{}
+.pkg-name{font-size:14px;font-weight:600;color:var(--text)}
+.pkg-details{font-size:11px;color:var(--text3);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+.pkg-details span{display:flex;align-items:center;gap:3px}
+.pkg-right{text-align:right;flex-shrink:0;margin-left:10px}
+.pkg-price{font-size:18px;font-weight:700;color:var(--br)}
+.pkg-price.free{color:var(--green)}
+.pkg-price-sub{font-size:10px;color:var(--text3)}
+.pkg-badge{position:absolute;top:8px;right:8px;background:var(--br);color:#fff;font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600}
+.pkg-badge.trial-badge{background:var(--green)}
+
+/* Section heading */
+.sec-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.sec-sub{font-size:12px;color:var(--text3);margin-bottom:1.25rem}
+
+/* Forms */
+.f-group{margin-bottom:12px}
+label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em}
+input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s}
+input:focus{border-color:var(--br);background:var(--white)}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text3);font-weight:500}
+.input-prefix input{padding-left:44px}
+
+/* Buttons */
+.btn{width:100%;padding:13px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:all 0.15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(0.98)}
+.btn-primary{background:var(--br);color:#fff}
+.btn-primary:hover{background:var(--br-d)}
+.btn-green{background:var(--green);color:#fff}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text2)}
+.btn-outline:hover{border-color:var(--br);color:var(--br)}
+.btn-sm{width:auto;padding:8px 16px;font-size:13px;border-radius:8px}
+.btn-link{background:none;border:none;color:var(--br);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;padding:0;width:auto;display:inline}
+.btn-gap{margin-top:10px}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:10px;margin:1rem 0;color:var(--text3);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Alert */
+.alert{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.alert-success{background:var(--green-l);color:var(--green)}
+.alert-error{background:var(--red-l);color:var(--red)}
+.alert-info{background:#e8f0fb;color:#1a4a8a}
+.alert-gold{background:var(--gold-l);color:#7a5200}
+.alert i{flex-shrink:0;font-size:16px;margin-top:1px}
+
+/* Voucher display */
+.voucher-display{border:2px dashed var(--br);border-radius:14px;padding:1.25rem;text-align:center;background:#fdf2ef;margin:1rem 0}
+.voucher-display .code{font-family:'Courier New',monospace;font-size:26px;font-weight:700;color:var(--br);letter-spacing:4px;margin:6px 0}
+.voucher-display .pkg-info{font-size:12px;color:var(--text3)}
+
+/* Payment status */
+.pay-status{text-align:center;padding:1.5rem 0}
+.pay-icon{font-size:52px;margin-bottom:12px}
+.pay-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.pay-sub{font-size:13px;color:var(--text3);line-height:1.6}
+.pulse-ring{display:inline-block;width:64px;height:64px;border-radius:50%;border:3px solid var(--br);border-top-color:transparent;animation:spin 1s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Phone confirm */
+.phone-confirm{background:var(--gold-l);border:1.5px solid #e8c96a;border-radius:12px;padding:12px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.phone-confirm .num{font-size:16px;font-weight:700;color:#6b4200;flex:1}
+
+/* Selected pkg summary */
+.sel-summary{background:var(--bg);border-radius:12px;padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+.sel-summary .name{font-size:14px;font-weight:600;color:var(--text)}
+.sel-summary .price{font-size:16px;font-weight:700;color:var(--br)}
+.sel-summary .price.free{color:var(--green)}
+
+/* Back button */
+.back-btn{display:flex;align-items:center;gap:6px;color:var(--text3);font-size:13px;cursor:pointer;margin-bottom:1.25rem;background:none;border:none;font-family:inherit;padding:0}
+.back-btn:hover{color:var(--br)}
+
+/* User greeting */
+.user-pill{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:10px;padding:8px 12px;margin-bottom:1.25rem}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--br);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.user-info{flex:1}.user-info .name{font-size:13px;font-weight:600;color:var(--text)}
+.user-info .phone{font-size:11px;color:var(--text3)}
+.logout-btn{font-size:11px;color:var(--text3);cursor:pointer;background:none;border:none;font-family:inherit}
+.logout-btn:hover{color:var(--red)}
+
+/* Voucher input */
+.voucher-input{font-family:'Courier New',monospace;text-transform:uppercase;letter-spacing:3px;font-size:18px;text-align:center;padding:14px}
+
+/* spinner */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
+.spinner.dark{border-color:rgba(71,37,29,0.2);border-top-color:var(--br)}
+
+/* Progress */
+.progress-wrap{margin:1rem 0}
+.progress-track{height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:var(--br);border-radius:99px;transition:width 0.5s}
+.progress-label{font-size:11px;color:var(--text3);text-align:center;margin-top:6px}
+
+/* Tab switcher */
+.tabs{display:flex;background:var(--bg);border-radius:10px;padding:3px;margin-bottom:1.25rem}
+.tab{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;color:var(--text3);transition:all 0.15s;border:none;background:none;font-family:inherit}
+.tab.active{background:var(--white);color:var(--br);box-shadow:0 1px 4px rgba(0,0,0,0.1)}
+
+@media(max-width:420px){.card{border-radius:16px 16px 0 0}}
+</style>
+</head>
+<body>
+
+<div class="portal">
+  <div class="header">
+    <div class="logo-ring">📶</div>
+    <h1>Savivah Internet Solutions</h1>
+    <p>Fast · Reliable · Affordable WiFi</p>
+    <div class="signal-bars">
+      <span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- Step dots -->
+    <div class="steps-bar" id="steps-bar">
+      <div class="step-dot active" id="dot-0"></div>
+      <div class="step-dot" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-3"></div>
+    </div>
+
+    <!-- STEP 0: PACKAGES -->
+    <div class="step active" id="step-packages">
+      <div class="sec-title">Choose a Package</div>
+      <div class="sec-sub">Select a plan to get started</div>
+      <div class="pkg-list" id="pkg-list">
+        <div style="text-align:center;padding:2rem;color:var(--text3);">
+          <div class="spinner dark" style="margin:0 auto 10px;"></div>
+          Loading packages...
+        </div>
+      </div>
+      <button class="btn btn-primary" id="pkg-continue-btn" onclick="continueToPurchase()" disabled style="opacity:0.5">
+        Continue →
+      </button>
+    </div>
+
+    <!-- STEP 1: LOGIN / REGISTER -->
+    <div class="step" id="step-auth">
+      <button class="back-btn" onclick="goBack('step-packages',0)">← Back to packages</button>
+
+      <!-- Logged in view -->
+      <div id="auth-loggedin" style="display:none">
+        <div class="sec-title">Confirm Purchase</div>
+        <div class="sec-sub">Review your selected package</div>
+        <div id="logged-user-pill"></div>
+        <div class="sel-summary" id="auth-sel-summary"></div>
+        <button class="btn btn-primary" onclick="goToPayment()">Proceed to Payment →</button>
+        <button class="btn btn-outline btn-gap" onclick="logout()">Switch Account</button>
+      </div>
+
+      <!-- Auth tabs -->
+      <div id="auth-tabs-wrap">
+        <div class="sec-title">Your Account</div>
+        <div class="sec-sub">Login or create a free account</div>
+        <div class="tabs">
+          <button class="tab active" id="tab-login" onclick="switchAuthTab('login')">Login</button>
+          <button class="tab" id="tab-register" onclick="switchAuthTab('register')">Register</button>
+        </div>
+
+        <!-- Login form -->
+        <div id="form-login">
+          <div id="login-alert"></div>
+          <div class="f-group">
+            <label>Phone Number</label>
+            <div class="input-prefix"><span>📱</span><input type="tel" id="login-phone" placeholder="07XXXXXXXX" oninput="formatPhone(this)"></div>
+          </div>
+          <div class="f-group">
+            <label>Password <span style="color:var(--text3);font-weight:400;text-transform:none">(optional)</span></label>
+            <input type="password" id="login-pass" placeholder="Leave blank if not set">
+          </div>
+          <button class="btn btn-primary" onclick="doLogin()">Login →</button>
+          <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--text3)">
+            No account? <button class="btn-link" onclick="switchAuthTab('register')">Register free</button>
+          </div>
+        </div>
+
+        <!-- Register form -->
+        <div id="form-register" style="display:none">
+          <div id="reg-alert"></div>
+          <div class="f-group">
+            <label>Full Name</label>
+            <input type="text" id="reg-name" placeholder="e.g. John Kamau">
+          </div>
+          <div class="f-group">
+            <label>Phone Number (M-Pesa)</label>
+            <div class="input-prefix"><span>📱</span><input type="tel" id="reg-phone" placeholder="07XXXXXXXX" oninput="formatPhone(this)"></div>
+          </div>
+          <div class="f-group">
+            <label>Password <span style="color:var(--text3);font-weight:400;text-transform:none">(optional)</span></label>
+            <input type="password" id="reg-pass" placeholder="Set a password (optional)">
+          </div>
+          <button class="btn btn-primary" onclick="doRegister()">Create Account →</button>
+          <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--text3)">
+            Already have account? <button class="btn-link" onclick="switchAuthTab('login')">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: PAYMENT / FREE TRIAL -->
+    <div class="step" id="step-payment">
+      <button class="back-btn" onclick="goBack('step-auth',1)">← Back</button>
+      <div class="sec-title" id="pay-title">Pay via M-Pesa</div>
+      <div class="sec-sub" id="pay-sub">Enter the number to charge</div>
+
+      <!-- Free trial -->
+      <div id="trial-section" style="display:none">
+        <div class="alert alert-success">
+          🎉 Welcome! As a new user you get <strong>3 days FREE internet</strong> — no payment needed!
+        </div>
+        <div class="sel-summary">
+          <span class="name">🆓 Free Trial — 3 Days</span>
+          <span class="price free">FREE</span>
+        </div>
+        <div class="alert alert-info">
+          ℹ️ Speed: 1 Mbps · Data: 500 MB · One-time offer for new users
+        </div>
+        <button class="btn btn-green" onclick="claimTrial()">
+          🎁 Claim My Free 3 Days
+        </button>
+      </div>
+
+      <!-- Paid package -->
+      <div id="paid-section">
+        <div id="payment-user-pill"></div>
+        <div class="sel-summary" id="pay-sel-summary"></div>
+        <div id="pay-alert"></div>
+        <div class="f-group">
+          <label>M-Pesa Number to Charge</label>
+          <div class="input-prefix"><span>📱</span><input type="tel" id="pay-phone" placeholder="07XXXXXXXX" oninput="formatPhone(this)"></div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px;">You'll receive a PIN prompt on this number</div>
+        </div>
+        <button class="btn btn-primary" id="pay-btn" onclick="initiatePayment()">
+          💳 Pay Now
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 3: WAITING / VOUCHER -->
+    <div class="step" id="step-waiting">
+      <!-- Waiting for payment -->
+      <div id="waiting-section">
+        <div class="pay-status">
+          <div class="pulse-ring"></div>
+          <div class="pay-title">Waiting for Payment</div>
+          <div class="pay-sub">Check your phone <strong id="wait-phone">07XXXXXXXX</strong> for the M-Pesa PIN prompt.<br><br>Enter your PIN to complete payment.</div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="wait-progress" style="width:0%"></div></div>
+          <div class="progress-label" id="wait-label">Waiting... 0/120 sec</div>
+        </div>
+        <button class="btn btn-outline" onclick="cancelPayment()" style="margin-top:0.5rem">Cancel</button>
+      </div>
+
+      <!-- Voucher ready -->
+      <div id="voucher-section" style="display:none">
+        <div class="pay-status">
+          <div class="pay-icon">✅</div>
+          <div class="pay-title" style="color:var(--green)">Payment Confirmed!</div>
+          <div class="pay-sub">Your voucher code is ready. Use it to connect.</div>
+        </div>
+        <div class="voucher-display">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">YOUR VOUCHER CODE</div>
+          <div class="code" id="voucher-code-display">----</div>
+          <div class="pkg-info" id="voucher-pkg-info"></div>
+        </div>
+        <div class="alert alert-gold">
+          📋 <span>Copy this code — you'll need it on the next screen to connect.</span>
+        </div>
+        <button class="btn btn-primary" onclick="goToConnect()">Connect Now →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: ENTER VOUCHER / CONNECT -->
+    <div class="step" id="step-connect">
+      <div class="sec-title">Connect to Internet</div>
+      <div class="sec-sub">Enter your voucher code below</div>
+
+      <div id="connect-alert"></div>
+
+      <div class="f-group">
+        <label>Voucher Code</label>
+        <input class="voucher-input" type="text" id="voucher-input" placeholder="XXXX-XXXX" maxlength="9" oninput="formatVoucherInput(this)">
+      </div>
+
+      <button class="btn btn-primary" onclick="submitVoucher()">
+        🌐 Connect to Internet
+      </button>
+
+      <div class="divider">or</div>
+
+      <div style="text-align:center;font-size:13px;color:var(--text3)">
+        Already have a voucher? Enter it above.<br>
+        <button class="btn-link" onclick="nav('step-packages',0)" style="margin-top:6px;display:inline-block">Buy a new package</button>
+      </div>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /portal -->
+
+<script>
+// State
+let state = {
+  user: JSON.parse(localStorage.getItem('sav_user') || 'null'),
+  selectedPkg: null,
+  checkoutId: null,
+  pollTimer: null,
+  pollCount: 0,
+  progressTimer: null,
+};
+
+const API = window.location.origin;
+
+async function api(path, opts = {}) {
+  const res = await fetch(API + path, {
+    headers: { 'Content-Type': 'application/json' },
+    ...opts
+  });
+  return res.json();
+}
+
+// ── Boot ──────────────────────────────────────────
+async function init() {
+  await loadPackages();
+  // If user is logged in, pre-fill phone
+  if (state.user) {
+    const phone = formatPhoneDisplay(state.user.phone);
+    const lp = document.getElementById('login-phone');
+    const pp = document.getElementById('pay-phone');
+    if (lp) lp.value = phone;
+    if (pp) pp.value = phone;
+  }
+}
+
+// ── Packages ──────────────────────────────────────
+async function loadPackages() {
+  try {
+    const d = await api('/api/packages');
+    if (!d.success) return;
+
+    const list = document.getElementById('pkg-list');
+    let pkgs = d.packages;
+
+    // Show free trial for new/not-logged-in users at top
+    const showTrial = !state.user || !state.user.trialUsed;
+
+    let html = '';
+
+    if (showTrial) {
+      html += `
+        <div class="pkg pkg-trial" id="pkg-trial" onclick="selectPkg('trial', 'Free Trial — 3 Days', 0, true)">
+          <div class="pkg-badge trial-badge">NEW USER</div>
+          <div class="pkg-left">
+            <div class="pkg-name">🎁 Free Trial</div>
+            <div class="pkg-details">
+              <span>⏱ 3 Days</span>
+              <span>📶 1 Mbps</span>
+              <span>💾 500 MB</span>
+            </div>
+          </div>
+          <div class="pkg-right">
+            <div class="pkg-price free">FREE</div>
+            <div class="pkg-price-sub">New users only</div>
+          </div>
+        </div>
+      `;
+    }
+
+    pkgs.filter(p => !p.isTrial).forEach(p => {
+      const isFeatured = p.featured;
+      html += `
+        <div class="pkg" id="pkg-${p.id}" onclick="selectPkg(${p.id}, '${p.name}', ${p.price}, false)">
+          ${isFeatured ? '<div class="pkg-badge">POPULAR</div>' : ''}
+          <div class="pkg-left">
+            <div class="pkg-name">${p.name}</div>
+            <div class="pkg-details">
+              <span>⏱ ${p.durVal} ${p.durUnit}</span>
+              <span>📶 ${p.speed}</span>
+              <span>💾 ${p.data === 'unlimited' ? '∞ Unlimited' : p.data}</span>
+            </div>
+          </div>
+          <div class="pkg-right">
+            <div class="pkg-price">KES ${p.price.toLocaleString()}</div>
+            <div class="pkg-price-sub">per session</div>
+          </div>
+        </div>
+      `;
+    });
+
+    list.innerHTML = html;
+  } catch (e) {
+    document.getElementById('pkg-list').innerHTML = '<div style="text-align:center;padding:1rem;color:var(--red);">Failed to load packages. Check your connection.</div>';
+  }
+}
+
+function selectPkg(id, name, price, isTrial) {
+  document.querySelectorAll('.pkg').forEach(p => p.classList.remove('sel'));
+  const el = document.getElementById(id === 'trial' ? 'pkg-trial' : `pkg-${id}`);
+  if (el) el.classList.add('sel');
+  state.selectedPkg = { id, name, price, isTrial };
+
+  const btn = document.getElementById('pkg-continue-btn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.textContent = isTrial ? '🎁 Claim Free Trial →' : `Continue — KES ${price.toLocaleString()} →`;
+}
+
+// ── Navigation ────────────────────────────────────
+function nav(stepId, dotIndex) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(stepId).classList.add('active');
+  updateDots(dotIndex);
+  window.scrollTo(0, 0);
+}
+
+function updateDots(active) {
+  for (let i = 0; i < 4; i++) {
+    const d = document.getElementById('dot-' + i);
+    d.classList.remove('active', 'done');
+    if (i < active) d.classList.add('done');
+    else if (i === active) d.classList.add('active');
+  }
+}
+
+function goBack(stepId, dotIndex) {
+  nav(stepId, dotIndex);
+}
+
+// ── Continue from packages ─────────────────────────
+function continueToPurchase() {
+  if (!state.selectedPkg) return;
+  prepareAuthStep();
+  nav('step-auth', 1);
+}
+
+function prepareAuthStep() {
+  const pkg = state.selectedPkg;
+  // If user already logged in
+  if (state.user) {
+    document.getElementById('auth-loggedin').style.display = 'block';
+    document.getElementById('auth-tabs-wrap').style.display = 'none';
+    document.getElementById('logged-user-pill').innerHTML = buildUserPill(state.user);
+    document.getElementById('auth-sel-summary').innerHTML = buildSummary(pkg);
+  } else {
+    document.getElementById('auth-loggedin').style.display = 'none';
+    document.getElementById('auth-tabs-wrap').style.display = 'block';
+  }
+}
+
+function buildUserPill(user) {
+  return `<div class="user-pill">
+    <div class="user-avatar">${user.name[0].toUpperCase()}</div>
+    <div class="user-info">
+      <div class="name">${user.name}</div>
+      <div class="phone">${formatPhoneDisplay(user.phone)}</div>
+    </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>`;
+}
+
+function buildSummary(pkg) {
+  return `<div class="sel-summary">
+    <span class="name">${pkg.name}</span>
+    <span class="price ${pkg.isTrial ? 'free' : ''}">${pkg.isTrial ? 'FREE' : 'KES ' + pkg.price.toLocaleString()}</span>
+  </div>`;
+}
+
+// ── Auth ──────────────────────────────────────────
+function switchAuthTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+  document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
+}
+
+async function doLogin() {
+  const phone = document.getElementById('login-phone').value;
+  const pass = document.getElementById('login-pass').value;
+  const alertEl = document.getElementById('login-alert');
+  if (!phone) { showAlert(alertEl, 'Enter your phone number', 'error'); return; }
+
+  const btn = event.target.closest('button');
+  setLoading(btn, true);
+
+  try {
+    const d = await api('/api/users/login', { method: 'POST', body: JSON.stringify({ phone, password: pass }) });
+    setLoading(btn, false);
+    if (!d.success) { showAlert(alertEl, d.error, 'error'); return; }
+    saveUser(d.user);
+    afterAuth();
+  } catch (e) { setLoading(btn, false); showAlert(alertEl, 'Connection error', 'error'); }
+}
+
+async function doRegister() {
+  const name = document.getElementById('reg-name').value.trim();
+  const phone = document.getElementById('reg-phone').value;
+  const pass = document.getElementById('reg-pass').value;
+  const alertEl = document.getElementById('reg-alert');
+  if (!name || !phone) { showAlert(alertEl, 'Name and phone are required', 'error'); return; }
+
+  const btn = event.target.closest('button');
+  setLoading(btn, true);
+
+  try {
+    const d = await api('/api/users/register', { method: 'POST', body: JSON.stringify({ name, phone, password: pass }) });
+    setLoading(btn, false);
+    if (!d.success) { showAlert(alertEl, d.error, 'error'); return; }
+    saveUser(d.user);
+    afterAuth();
+  } catch (e) { setLoading(btn, false); showAlert(alertEl, 'Connection error', 'error'); }
+}
+
+function saveUser(user) {
+  state.user = user;
+  localStorage.setItem('sav_user', JSON.stringify(user));
+}
+
+function logout() {
+  state.user = null;
+  localStorage.removeItem('sav_user');
+  prepareAuthStep();
+}
+
+function afterAuth() {
+  // Check if trial was selected but already used
+  if (state.selectedPkg.isTrial && state.user.trialUsed) {
+    state.selectedPkg = null;
+    document.querySelectorAll('.pkg').forEach(p => p.classList.remove('sel'));
+    const btn = document.getElementById('pkg-continue-btn');
+    btn.disabled = true; btn.style.opacity = '0.5'; btn.textContent = 'Continue →';
+    nav('step-packages', 0);
+    // Remove trial card since it's used
+    const tc = document.getElementById('pkg-trial');
+    if (tc) { tc.style.display = 'none'; }
+    showTempAlert('You have already used your free trial. Please select a paid package.', 'gold');
+    return;
+  }
+  goToPayment();
+}
+
+function goToPayment() {
+  const pkg = state.selectedPkg;
+  const user = state.user;
+  // Trial path
+  if (pkg.isTrial) {
+    document.getElementById('trial-section').style.display = 'block';
+    document.getElementById('paid-section').style.display = 'none';
+    document.getElementById('pay-title').textContent = '🎁 Free Trial';
+    document.getElementById('pay-sub').textContent = '3 days internet — completely free!';
+  } else {
+    document.getElementById('trial-section').style.display = 'none';
+    document.getElementById('paid-section').style.display = 'block';
+    document.getElementById('pay-title').textContent = 'Pay via M-Pesa';
+    document.getElementById('pay-sub').textContent = 'You\'ll receive a PIN prompt on your phone';
+    document.getElementById('payment-user-pill').innerHTML = buildUserPill(user);
+    document.getElementById('pay-sel-summary').innerHTML = buildSummary(pkg);
+    // Pre-fill phone
+    const pp = document.getElementById('pay-phone');
+    if (pp && user) pp.value = formatPhoneDisplay(user.phone);
+  }
+  nav('step-payment', 2);
+}
+
+// ── Trial ─────────────────────────────────────────
+async function claimTrial() {
+  const btn = event.target.closest('button');
+  setLoading(btn, true, 'Claiming your trial...');
+  try {
+    const d = await api('/api/users/trial', { method: 'POST', body: JSON.stringify({ userId: state.user.id }) });
+    setLoading(btn, false);
+    if (!d.success) { showAlert(document.getElementById('pay-alert') || document.createElement('div'), d.error, 'error'); return; }
+    // Update user
+    state.user.trialUsed = true;
+    localStorage.setItem('sav_user', JSON.stringify(state.user));
+    // Show voucher
+    showVoucher(d.voucher);
+  } catch (e) { setLoading(btn, false); }
+}
+
+// ── Payment ───────────────────────────────────────
+async function initiatePayment() {
+  const phone = document.getElementById('pay-phone').value;
+  const pkg = state.selectedPkg;
+  const alertEl = document.getElementById('pay-alert');
+  if (!phone) { showAlert(alertEl, 'Enter the M-Pesa number to charge', 'error'); return; }
+
+  const btn = document.getElementById('pay-btn');
+  setLoading(btn, true, 'Sending M-Pesa request...');
+
+  try {
+    const d = await api('/api/mpesa/stk', {
+      method: 'POST',
+      body: JSON.stringify({ phone, pkgId: pkg.id, userId: state.user?.id })
+    });
+    setLoading(btn, false);
+
+    if (!d.success) { showAlert(alertEl, d.error, 'error'); return; }
+
+    state.checkoutId = d.checkoutId;
+    startWaiting(phone);
+  } catch (e) {
+    setLoading(btn, false);
+    showAlert(alertEl, 'Connection error. Try again.', 'error');
+  }
+}
+
+function startWaiting(phone) {
+  document.getElementById('wait-phone').textContent = formatPhoneDisplay(phone);
+  nav('step-waiting', 3);
+  document.getElementById('waiting-section').style.display = 'block';
+  document.getElementById('voucher-section').style.display = 'none';
+
+  state.pollCount = 0;
+  if (state.pollTimer) clearInterval(state.pollTimer);
+  if (state.progressTimer) clearInterval(state.progressTimer);
+
+  const maxSec = 120;
+  let elapsed = 0;
+
+  state.progressTimer = setInterval(() => {
+    elapsed++;
+    const pct = Math.min((elapsed / maxSec) * 100, 100);
+    document.getElementById('wait-progress').style.width = pct + '%';
+    document.getElementById('wait-label').textContent = `Waiting for PIN confirmation... ${elapsed}s`;
+    if (elapsed >= maxSec) {
+      clearInterval(state.progressTimer);
+      document.getElementById('wait-label').textContent = 'Timed out. Please try again.';
+    }
+  }, 1000);
+
+  state.pollTimer = setInterval(async () => {
+    state.pollCount++;
+    try {
+      const d = await api('/api/mpesa/status/' + state.checkoutId);
+      if (d.status === 'completed') {
+        clearInterval(state.pollTimer);
+        clearInterval(state.progressTimer);
+        showVoucher(d.voucher);
+      }
+    } catch (e) {}
+    if (state.pollCount > 24) {
+      clearInterval(state.pollTimer);
+      clearInterval(state.progressTimer);
+    }
+  }, 5000);
+}
+
+function cancelPayment() {
+  if (state.pollTimer) clearInterval(state.pollTimer);
+  if (state.progressTimer) clearInterval(state.progressTimer);
+  nav('step-payment', 2);
+}
+
+// ── Voucher ───────────────────────────────────────
+function showVoucher(voucher) {
+  document.getElementById('waiting-section').style.display = 'none';
+  document.getElementById('voucher-section').style.display = 'block';
+  document.getElementById('voucher-code-display').textContent = voucher.code;
+  document.getElementById('voucher-pkg-info').textContent = `${voucher.pkgName} · ${voucher.dur} · ${voucher.speed}`;
+  // Pre-fill connect input
+  document.getElementById('voucher-input').value = voucher.code;
+  nav('step-waiting', 3);
+}
+
+function goToConnect() {
+  nav('step-connect', 3);
+}
+
+function formatVoucherInput(input) {
+  let v = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (v.length > 4) v = v.slice(0, 4) + '-' + v.slice(4, 8);
+  input.value = v;
+}
+
+async function submitVoucher() {
+  const code = document.getElementById('voucher-input').value.trim().toUpperCase();
+  const alertEl = document.getElementById('connect-alert');
+  if (!code || code.length < 9) { showAlert(alertEl, 'Enter a valid voucher code (e.g. XHBK-3P2N)', 'error'); return; }
+
+  const btn = event.target.closest('button');
+  setLoading(btn, true, 'Connecting...');
+
+  // Mark as used
+  try {
+    await api(`/api/vouchers/${code}/use`, { method: 'PATCH' });
+  } catch (e) {}
+
+  setTimeout(() => {
+    setLoading(btn, false);
+    // MikroTik login redirect — standard hotspot URL
+    // In real MikroTik setup, the login page posts to $(link-login-only)
+    // For the portal flow, we redirect to MikroTik's login endpoint
+    const loginUrl = `$(link-login-only)?username=${encodeURIComponent(code)}&password=${encodeURIComponent(code)}&dst=$(link-orig-esc)`;
+
+    // Fallback for testing without MikroTik
+    if (window.location.hostname === 'localhost' || window.location.hostname.startsWith('192.168')) {
+      showAlert(alertEl, `✅ Voucher ${code} accepted! In production this will connect you to the internet.`, 'success');
+    } else {
+      window.location.href = loginUrl;
+    }
+  }, 1200);
+}
+
+// ── Helpers ───────────────────────────────────────
+function formatPhone(input) {
+  let v = input.value.replace(/\D/g, '');
+  input.value = v;
+}
+
+function formatPhoneDisplay(phone) {
+  if (!phone) return '';
+  const s = phone.toString();
+  if (s.startsWith('254')) return '0' + s.slice(3);
+  return s;
+}
+
+function showAlert(el, msg, type) {
+  if (!el) return;
+  const icons = { success: '✅', error: '❌', info: 'ℹ️', gold: '⚠️' };
+  el.innerHTML = `<div class="alert alert-${type === 'gold' ? 'gold' : type === 'error' ? 'error' : type === 'success' ? 'success' : 'info'}">
+    ${icons[type] || 'ℹ️'} <span>${msg}</span>
+  </div>`;
+}
+
+function showTempAlert(msg, type) {
+  const c = document.getElementById('pkg-list');
+  const div = document.createElement('div');
+  div.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+  c.parentNode.insertBefore(div, c);
+  setTimeout(() => div.remove(), 5000);
+}
+
+function setLoading(btn, loading, text = '') {
+  if (!btn) return;
+  if (loading) {
+    btn.disabled = true;
+    btn.dataset.orig = btn.innerHTML;
+    btn.innerHTML = `<div class="spinner"></div> ${text || 'Please wait...'}`;
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = btn.dataset.orig || btn.innerHTML;
+  }
+}
+
+// ── Init ──────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
