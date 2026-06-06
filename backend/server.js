@@ -1,4 +1,4 @@
-require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -28,11 +28,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
+
 app.listen(PORT, () => {
   console.log(`\n🌐 Savivah Internet Solutions`);
   console.log(`   Admin Panel  → http://localhost:${PORT}`);
   console.log(`   Hotspot Portal → http://localhost:${PORT}/hotspot/`);
-  console.log(`   M-Pesa: ${process.env.MPESA_SHORTCODE ? '✅ Configured' : '⚠️  Not configured — go to Settings'}`);
-  console.log(`   DB: ${require('./db').path}\n`);
+  console.log(`   M-Pesa: ${process.env.MPESA_SHORTCODE ? '✅ Configured' : '⚠️ Not configured'}`);
+  console.log(`   DB connected\n`);
+});
 });
